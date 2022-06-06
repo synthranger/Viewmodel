@@ -1,4 +1,5 @@
--- EXAMPLE
+-- JUST A SAMPLE
+-- ONLY SHOWS HOW TO USE IT
 
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
