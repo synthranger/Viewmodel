@@ -1,0 +1,31 @@
+title = "Viewmodel"
+gitRepoUrl = "https://github.com/Synthranger/Viewmodel"
+
+gitSourceBranch = "main"
+changelog = true
+
+[docusaurus]
+onBrokenLinks = "throw"
+onBrokenMarkdownLinks = "warn"
+
+organizationName = "Synthranger"
+projectName = "Viewmodel"
+tagline = "Viewmodel class for handling viewmodels in FPS frameworks"
+
+[footer]
+style = "dark"
+
+[home]
+enabled = true
+
+[[home.features]]
+title = "Simple"
+description = "Simple and understandable API."
+
+[[home.features]]
+title = "Lightweight"
+description = "Easily integrate Viewmodel in your FPS frameworks."
+
+[[home.features]]
+title = "Extensible"
+description = "Modify Viewmodel as much as you want."

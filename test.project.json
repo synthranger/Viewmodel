@@ -1,0 +1,13 @@
+{
+    "name": "ViewmodelTest",
+    "tree": {
+      "$className": "DataModel",
+
+      "ReplicatedFirst": {
+        "$className": "ReplicatedFirst",
+        "Packages": {
+          "$path": "Packages/"
+        }
+      }
+    }
+}
