@@ -10,4 +10,5 @@ Viewmodel Instance Format
   - Right Arm (Part)
   - AnimationController or Humanoid
 
+[Changelog](CHANGELOG.md) <br/>
 [Documentation](https://synthranger.github.io/Viewmodel/)
