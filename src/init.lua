@@ -67,6 +67,10 @@ export type ViewmodelSettings = {
 local Viewmodel: Viewmodel = {}
 Viewmodel.__index = Viewmodel
 
+local function assert<A>(value: A, errorMessage: string, ...: string): A?
+	return value or error(string.format(errorMessage, ...))
+end
+
 local function checkViewmodelInstance(viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings)
 	assert(viewmodelInstance:FindFirstChild("HumanoidRootPart"))
 	assert(viewmodelSettings or viewmodelInstance:FindFirstChild("Settings"))
@@ -76,8 +80,8 @@ local function checkViewmodelInstance(viewmodelInstance: Model, viewmodelSetting
 	assert(viewmodelInstance:FindFirstChildWhichIsA("AnimationController") or viewmodelInstance:FindFirstChildWhichIsA("Humanoid"))
 end
 
-local function getAnimator(viewmodelInstance: Model): Animator
-	checkViewmodelInstance(viewmodelInstance)
+local function getAnimator(viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings): Animator
+	checkViewmodelInstance(viewmodelInstance, viewmodelSettings)
 	local animatorContainer: AnimationController & Humanoid = 
 		viewmodelInstance:FindFirstChildWhichIsA("AnimationController") or 
 		viewmodelInstance:FindFirstChildWhichIsA("Humanoid")
@@ -85,8 +89,8 @@ local function getAnimator(viewmodelInstance: Model): Animator
 	return animator
 end
 
-local function cleanViewmodelInstance(viewmodelInstance: Model)
-	checkViewmodelInstance(viewmodelInstance)
+local function cleanViewmodelInstance(viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings)
+	checkViewmodelInstance(viewmodelInstance, viewmodelSettings)
 	viewmodelInstance.PrimaryPart = viewmodelInstance.HumanoidRootPart
 	if viewmodelInstance:FindFirstChild("AnimSaves") then
 		viewmodelInstance.AnimSaves:Destroy()
@@ -100,12 +104,12 @@ local function cleanViewmodelInstance(viewmodelInstance: Model)
 end
 
 local function updateArms(viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings)
-	checkViewmodelInstance(viewmodelInstance)
+	checkViewmodelInstance(viewmodelInstance, viewmodelSettings)
 	local character = LocalPlayer.Character
 	if character then
 		local shirt: Shirt = character:FindFirstChildWhichIsA("Shirt")
-		local leftArm: Part = character:FindFirstChild("Left Arm")
-		local rightArm: Part = character:FindFirstChild("Right Arm")
+		local leftArm: Part = character:FindFirstChild("Left Arm") or character:FindFirstChild("LeftUpperArm")
+		local rightArm: Part = character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
 		local vmLeftArm: Part = viewmodelInstance:FindFirstChild("Left Arm")
 		local vmRightArm: Part = viewmodelInstance:FindFirstChild("Right Arm")
 		
@@ -211,11 +215,11 @@ end
 ]=]
 function Viewmodel.new(viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings): Viewmodel
 	checkViewmodelInstance(viewmodelInstance, viewmodelSettings)
-	cleanViewmodelInstance(viewmodelInstance)
+	cleanViewmodelInstance(viewmodelInstance, viewmodelSettings)
 	local self: Viewmodel = setmetatable({
 		Settings = viewmodelSettings or require(viewmodelInstance.Settings);
 		Instance = viewmodelInstance;
-		Animator = getAnimator(viewmodelInstance);
+		Animator = getAnimator(viewmodelInstance, viewmodelSettings);
 		Culled = false;
 		Animations = {};
 	}, Viewmodel)
@@ -223,5 +227,5 @@ function Viewmodel.new(viewmodelInstance: Model, viewmodelSettings: ViewmodelSet
 end
 
 return Viewmodel :: {
-	new: (viewmodelInstance: Model) -> Viewmodel
+	new: (viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings) -> Viewmodel
 }
