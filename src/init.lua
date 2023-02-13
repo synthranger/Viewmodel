@@ -67,10 +67,6 @@ export type ViewmodelSettings = {
 local Viewmodel: Viewmodel = {}
 Viewmodel.__index = Viewmodel
 
-local function assert<A>(value: A, errorMessage: string, ...: string): A?
-	return value or error(string.format(errorMessage, ...))
-end
-
 local function checkViewmodelInstance(viewmodelInstance: Model, viewmodelSettings: ViewmodelSettings)
 	assert(viewmodelInstance:FindFirstChild("HumanoidRootPart"))
 	assert(viewmodelSettings or viewmodelInstance:FindFirstChild("Settings"))

@@ -7,3 +7,6 @@
 - R15 Support
 - ViewmodelSettings fix
 - Constructor types fix
+
+## 0.1.2
+- Assert fix
